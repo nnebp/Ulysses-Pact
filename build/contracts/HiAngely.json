@@ -1,0 +1,286 @@
+{
+  "contractName": "HiAngely",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "hi",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6060604052341561000f57600080fd5b6101578061001e6000396000f300606060405260043610610041576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063a99dca3f14610046575b600080fd5b341561005157600080fd5b6100596100d4565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561009957808201518184015260208101905061007e565b50505050905090810190601f1680156100c65780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6100dc610117565b6040805190810160405280600a81526020017f486920416e67656c792100000000000000000000000000000000000000000000815250905090565b6020604051908101604052806000815250905600a165627a7a72305820c1d7093768d5821ec2fa360bbad5d21c7285065a90983e4eb8d800cbef5d7cf30029",
+  "deployedBytecode": "0x606060405260043610610041576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063a99dca3f14610046575b600080fd5b341561005157600080fd5b6100596100d4565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561009957808201518184015260208101905061007e565b50505050905090810190601f1680156100c65780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6100dc610117565b6040805190810160405280600a81526020017f486920416e67656c792100000000000000000000000000000000000000000000815250905090565b6020604051908101604052806000815250905600a165627a7a72305820c1d7093768d5821ec2fa360bbad5d21c7285065a90983e4eb8d800cbef5d7cf30029",
+  "sourceMap": "26:104:0:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "26:104:0:-;;;;;;;;;;;;;;;;;;;;;;;;50:78;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;50:78:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;85:6;;:::i;:::-;102:19;;;;;;;;;;;;;;;;;;;;50:78;:::o;26:104::-;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.17;\n\ncontract HiAngely {\n    function hi() public view returns (string){\n        return \"Hi Angely!\";\n    }\n}\n",
+  "sourcePath": "/home/something/Dev/Eth/PlayGround/up1/contracts/Up.sol",
+  "ast": {
+    "absolutePath": "/home/something/Dev/Eth/PlayGround/up1/contracts/Up.sol",
+    "exportedSymbols": {
+      "HiAngely": [
+        10
+      ]
+    },
+    "id": 11,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".17"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 10,
+        "linearizedBaseContracts": [
+          10
+        ],
+        "name": "HiAngely",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 8,
+              "nodeType": "Block",
+              "src": "92:36:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "486920416e67656c7921",
+                    "id": 6,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "string",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "109:12:0",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_stringliteral_32ff622bd62d0916c816a6520f2c3a6c26dbf89b6c70f05d59ab79b443506cfd",
+                      "typeString": "literal_string \"Hi Angely!\""
+                    },
+                    "value": "Hi Angely!"
+                  },
+                  "functionReturnParameters": 5,
+                  "id": 7,
+                  "nodeType": "Return",
+                  "src": "102:19:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 9,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "hi",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "61:2:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 5,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9,
+                  "src": "85:6:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "85:6:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "84:8:0"
+            },
+            "scope": 10,
+            "src": "50:78:0",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 11,
+        "src": "26:104:0"
+      }
+    ],
+    "src": "0:131:0"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/something/Dev/Eth/PlayGround/up1/contracts/Up.sol",
+    "exportedSymbols": {
+      "HiAngely": [
+        10
+      ]
+    },
+    "id": 11,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".17"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 10,
+        "linearizedBaseContracts": [
+          10
+        ],
+        "name": "HiAngely",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 8,
+              "nodeType": "Block",
+              "src": "92:36:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "486920416e67656c7921",
+                    "id": 6,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "string",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "109:12:0",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_stringliteral_32ff622bd62d0916c816a6520f2c3a6c26dbf89b6c70f05d59ab79b443506cfd",
+                      "typeString": "literal_string \"Hi Angely!\""
+                    },
+                    "value": "Hi Angely!"
+                  },
+                  "functionReturnParameters": 5,
+                  "id": 7,
+                  "nodeType": "Return",
+                  "src": "102:19:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 9,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "hi",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "61:2:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 5,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9,
+                  "src": "85:6:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string memory"
+                  },
+                  "typeName": {
+                    "id": 3,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "85:6:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string storage pointer"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "84:8:0"
+            },
+            "scope": 10,
+            "src": "50:78:0",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 11,
+        "src": "26:104:0"
+      }
+    ],
+    "src": "0:131:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.21+commit.dfe3193c.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-09-03T21:33:10.759Z"
+}

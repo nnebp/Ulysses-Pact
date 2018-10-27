@@ -1,0 +1,67 @@
+<script src="web3.min.js"></script>
+<script>
+    //do some test things here
+    var abi = [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "createPact",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "name": "length",
+          "type": "uint256"
+        }
+      ],
+      "name": "deposit",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "withdraw",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ];
+    startApp = function() {
+      var pact = new web3.eth.contract(abi, '0x224a458f348686e9f28b10ce39db47da3b81e0fe');
+      pact.createPact().send();
+      console.log('hello!');
+    };
+
+
+
+window.addEventListener('load', function() {
+// Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  if (typeof web3 !== 'undefined') {
+    // Use Mist/MetaMask's provider
+    web3js = new Web3(web3.currentProvider);
+  } else {
+    // Handle the case where the user doesn't have web3. Probably 
+    // show them a message telling them to install Metamask in 
+    // order to use our app.
+    // For example
+    console.log('install metamask');
+    // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  }
+
+  // Now you can start your app & access web3js freely:
+  startApp()
+})
+</script>
