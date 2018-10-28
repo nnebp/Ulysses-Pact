@@ -1,8 +1,7 @@
 pragma solidity ^0.4.17;
-//import '/home/something/Dev/Eth/node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol';
-import '../installed_contracts/zeppelin/contracts/ownership/Ownable.sol';
-//^truffle version issue. huge waste of time
-// ^this is an issue with some npm modules at a higher directoy i think
+//TODO NEW SOLIDITY VERSION?
+//TODO ERC20 TOKEN CODE
+import "../installed_contracts/zeppelin/contracts/token/StandardToken.sol";
 contract Up {
 
     //flag if eth is deposited and contract is used
@@ -15,11 +14,15 @@ contract Up {
     event Deposit(uint256 amount, uint256 length);
     event Withdraw();
 
+    // function depositToken(uint256 length) public{
+
+
     //TODO deal with time conversion on front end
-    //TODO limit on length
     //TODO check for overflows once openzeppelin can be imported
     function deposit(uint256 amount, uint256 length) payable public{
         require(msg.value == amount);
+        require(length > 0 && length < 31557600);
+        //TODO require lentgh is less than a year
 
         ownerAddress = msg.sender;
         isUsed = true;
@@ -44,7 +47,7 @@ contract UpFactory {
 
     //TODO test
     function createPact() public {
-        if (ups[msg.sender] == 0) { //one contract per factory
+        if (ups[msg.sender] == 0) { //one contract per person
             //TODO fire event
             ups[msg.sender] = new Up();
 
