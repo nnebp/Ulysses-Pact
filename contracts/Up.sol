@@ -2,7 +2,10 @@ pragma solidity ^0.4.17;
 //TODO NEW SOLIDITY VERSION?
 //TODO ERC20 TOKEN CODE
 import "../installed_contracts/zeppelin/contracts/token/StandardToken.sol";
+import "../installed_contracts/zeppelin/contracts/math/SafeMath.sol";
+
 contract Up {
+    using SafeMath for uint256;
 
     //flag if eth is deposited and contract is used
     bool isUsed = false;
@@ -21,12 +24,13 @@ contract Up {
     //TODO check for overflows once openzeppelin can be imported
     function deposit(uint256 amount, uint256 length) payable public{
         require(msg.value == amount);
-        require(length > 0 && length < 31557600);
+        //length is greater than nothing but less than a year
+        require(length > 0 && length < (now.add(31557600))); //TODO safemath
         //TODO require lentgh is less than a year
 
         ownerAddress = msg.sender;
         isUsed = true;
-        endTime = now + length;
+        endTime = now.add(length); //TODO safemath
         emit Deposit(amount, length);
     }
 
