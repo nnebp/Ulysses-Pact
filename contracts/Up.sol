@@ -21,27 +21,40 @@ contract Up {
 
 
     //TODO deal with time conversion on front end
-    //TODO check for overflows once openzeppelin can be imported
-    function deposit(uint256 amount, uint256 length) payable public{
+    function deposit(uint256 amount, uint256 length) payable public {
         require(msg.value == amount);
         //length is greater than nothing but less than a year
-        require(length > 0 && length < (now.add(31557600))); //TODO safemath
-        //TODO require lentgh is less than a year
+        require(length > 0 && length < (now.add(31557600)));
 
         ownerAddress = msg.sender;
         isUsed = true;
-        endTime = now.add(length); //TODO safemath
+        endTime = now.add(length);
         emit Deposit(amount, length);
     }
 
     //TODO code to verify owner (save creator address). is this really needed???
-    function withdraw() public{
-        if (now > endTime) {
+    function withdraw() public {
+        if (now > endTime) { //TODO change to require
             ownerAddress.transfer(address(this).balance);
             //send back money
         }
         emit Withdraw();
-        //TODO contract suicide
+        //TODO contract suicide TODO test contract suicide
+        //check that balance of the contract is 0 and suicide?
+    }
+
+    //TODO TEST THIS
+    //TODO add function in
+    // Call to withdraw ERC20 Tokens
+    function withdrawTokens(address _token) {
+
+        // Don't allow anything to be withdrawn until the unlock time
+        require(now > endTime);
+
+        // Withdraw the tokens
+        StandardToken token = StandardToken(_token);
+        uint balance = token.balanceOf(this);
+        token.transfer(ownerAddress, balance);
     }
 }
 
@@ -60,12 +73,12 @@ contract UpFactory {
         }
     }
 
-    function deposit(uint256 amount, uint256 length) payable public{
+    function deposit(uint256 amount, uint256 length) payable public {
         require(ups[msg.sender] != 0);
         Up(ups[msg.sender]).deposit(amount, length);
     }
 
-    function withdraw() public{
+    function withdraw() public {
         require(ups[msg.sender] != 0);
         Up(ups[msg.sender]).withdraw();
     }
