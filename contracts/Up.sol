@@ -32,7 +32,6 @@ contract Up {
         emit Deposit(amount, length);
     }
 
-    //TODO code to verify owner (save creator address). is this really needed???
     function withdraw() public {
         if (now > endTime) { //TODO change to require
             ownerAddress.transfer(address(this).balance);
@@ -44,7 +43,8 @@ contract Up {
     }
 
     //TODO TEST THIS
-    //TODO add function in
+    //TODO add function in factory
+    //TODO add deposit function to set the withdraw time
     // Call to withdraw ERC20 Tokens
     function withdrawTokens(address _token) {
 
@@ -81,5 +81,10 @@ contract UpFactory {
     function withdraw() public {
         require(ups[msg.sender] != 0);
         Up(ups[msg.sender]).withdraw();
+    }
+
+    //TODO delete test function
+    function hi() public view returns (string){
+        return "Hi! you called this method successfully";
     }
 }

@@ -6,6 +6,7 @@ module.exports = function(deployer) {
   deployer.deploy(Migrations);
   deployer.deploy(Up);
   deployer.deploy(UpFactory);
+
 };
 
 

@@ -1,48 +1,109 @@
-<script src="web3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 <script>
     //do some test things here
+    /*
     var abi = [
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "_address",
+            "type": "address"
+          }
+        ],
+        "name": "PactCreated",
+        "type": "event"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "createPact",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "name": "length",
+            "type": "uint256"
+          }
+        ],
+        "name": "deposit",
+        "outputs": [],
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "withdraw",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "hi",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ];
+    */
+
+    var testAbi = [
     {
-      "constant": false,
+      "constant": true,
       "inputs": [],
-      "name": "createPact",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
+      "name": "hi",
+      "outputs": [
         {
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "name": "length",
-          "type": "uint256"
+          "name": "",
+          "type": "string"
         }
       ],
-      "name": "deposit",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "withdraw",
-      "outputs": [],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
-    }
-  ];
+    }];
+
+    //Web3 0.20.3
     startApp = function() {
-      var pact = new web3.eth.contract(abi, '0x224a458f348686e9f28b10ce39db47da3b81e0fe');
-      pact.createPact().send();
-      console.log('hello!');
+      var pact =  web3.eth.contract(testAbi);
+      var pactInstance = pact.at('0x0106515728050649d117632f4a3282f2a95d516b');
+      console.log('hello!' + web3.isConnected());
+      console.log(pactInstance.hi.call(function (err, res) {
+        //do stuff
+        console.log('123123' + res);
+      }));
+
+      //console.log(pact.methods.hi.call());
+      /*
+      pact.methods.hi().call(function(err,res) {
+        if (!err) {
+          console.log(res);
+        } else {
+          console.log(err);
+        }
+      });
+      */
     };
 
 
