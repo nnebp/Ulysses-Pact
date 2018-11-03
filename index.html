@@ -1,7 +1,5 @@
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 <script>
-    //do some test things here
-    /*
     var abi = [
       {
         "anonymous": false,
@@ -66,44 +64,17 @@
         "type": "function"
       }
     ];
-    */
-
-    var testAbi = [
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "hi",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    }];
 
     //Web3 0.20.3
     startApp = function() {
-      var pact =  web3.eth.contract(testAbi);
-      var pactInstance = pact.at('0x0106515728050649d117632f4a3282f2a95d516b');
-      console.log('hello!' + web3.isConnected());
-      console.log(pactInstance.hi.call(function (err, res) {
-        //do stuff
-        console.log('123123' + res);
-      }));
+      var pact =  web3.eth.contract(abi);
+      var pactInstance = pact.at('0xda2a54a40af54ffdefcefcc7c1f27bc668af2b0d');
 
-      //console.log(pact.methods.hi.call());
-      /*
-      pact.methods.hi().call(function(err,res) {
-        if (!err) {
-          console.log(res);
-        } else {
-          console.log(err);
-        }
-      });
-      */
+      console.log('Is web3 connected? ' + web3.isConnected());
+
+      console.log(pactInstance.hi.call(function (err, res) {
+        console.log(res);
+      }));
     };
 
 
