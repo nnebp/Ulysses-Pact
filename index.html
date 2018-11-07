@@ -5,11 +5,19 @@
 <button onclick="dateToEpoch()">Create Ulysses Pact!</button>
 
 <script>
+  var pactInstance;
   function dateToEpoch() {
     var dateString = document.getElementById("myDate").value;
-    var epoch= new Date(dateString).getTime();
+    var epoch = new Date(dateString).getTime();
     console.log(epoch);
 
+   //TODO move
+    /*
+    pactInstance.createPact.call(function (err, res) {
+      console.log(res + "something?");
+      console.log(err + "err??something?");
+    });
+    */
   }
 
     var abi = [
@@ -79,33 +87,64 @@
 
     //Web3 0.20.3
     startApp = function() {
+      //unlock
+      //web3.eth.defaultAccount = web3.eth.accounts[0];
+      //web3.personal.unlockAccount(web3.eth.defaultAccount);
+
+      console.log('default account is: ' + web3.eth.defaultAccount);
+
       var pact =  web3.eth.contract(abi);
-      var pactInstance = pact.at('0xda2a54a40af54ffdefcefcc7c1f27bc668af2b0d');
+      pactInstance = pact.at('0x4dff7a3a8e2af9eed1dc7f4e285858c2eece0096');
 
       console.log('Is web3 connected? ' + web3.isConnected());
 
-      console.log(pactInstance.hi.call(function (err, res) {
+
+     //watch for a test event
+     var myEvent = pactInstance.PactCreated({},{fromBlock: 0, toBlock: 'latest'});
+
+        myEvent.watch(function(error, result){
+            console.log("on watch");
+            console.log(result['args']['_address']);
+        });
+
+      pactInstance.hi(function (err, res) {
         console.log(res);
-      }));
+      });
+
+      //TODO make this into a seperate function after its confirmed everything works
+      pactInstance.createPact(function(error, result) {
+        //if (!error)
+          //console.log(JSON.stringify(result));
+          console.log(result + " is the result of createPact");
+        //else
+          //console.error(error + " is the result of createPact ERROR");
+      });
     };
 
+window.addEventListener('load', async () => {
+    // Modern dapp browsers...
+    if (window.ethereum) {
+        window.web3 = new Web3(ethereum);
+        try {
+            // Request account access if needed
+            await ethereum.enable();
+            // Acccounts now exposed
+            web3.eth.sendTransaction({/* ... */});
+        } catch (error) {
+            // User denied account access...
+        }
+    }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+        window.web3 = new Web3(web3.currentProvider);
+        // Acccounts always exposed
+        web3.eth.sendTransaction({/* ... */});
+    }
+    // Non-dapp browsers...
+    else {
+        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+    }
 
-
-window.addEventListener('load', function() {
-// Checking if Web3 has been injected by the browser (Mist/MetaMask)
-  if (typeof web3 !== 'undefined') {
-    // Use Mist/MetaMask's provider
-    web3js = new Web3(web3.currentProvider);
-  } else {
-    // Handle the case where the user doesn't have web3. Probably 
-    // show them a message telling them to install Metamask in 
-    // order to use our app.
-    // For example
-    console.log('install metamask');
-    // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-  }
-
-  // Now you can start your app & access web3js freely:
-  startApp()
-})
+    startApp();
+});
 </script>
