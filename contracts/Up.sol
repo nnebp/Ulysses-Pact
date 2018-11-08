@@ -17,9 +17,6 @@ contract Up {
     event Deposit(uint256 amount, uint256 length);
     event Withdraw();
 
-    // function depositToken(uint256 length) public{
-
-
     //TODO deal with time conversion on front end
     function deposit(uint256 amount, uint256 length) payable public {
         require(msg.value == amount);
@@ -33,6 +30,7 @@ contract Up {
     }
 
     function withdraw() public {
+        //TODO flags for ERC20 and 721??
         if (now > endTime) { //TODO change to require
             ownerAddress.transfer(address(this).balance);
             //send back money
@@ -43,8 +41,8 @@ contract Up {
     }
 
     //TODO TEST THIS
-    //TODO add function in factory
     //TODO add deposit function to set the withdraw time
+    //TODO role this into regular withdraw and use a flag
     // Call to withdraw ERC20 Tokens
     function withdrawTokens(address _token) {
 
@@ -63,14 +61,14 @@ contract UpFactory {
     event PactCreated(address _address);
 
     //TODO test
-    function createPact() public {
-        if (ups[msg.sender] == 0) { //one contract per person
-            //TODO fire event
-            ups[msg.sender] = new Up();
+    function createPact() public returns (address){
+        require(ups[msg.sender] == 0); //one contract per address
+        ups[msg.sender] = new Up();
 
-            emit PactCreated(ups[msg.sender]);
-            //TODO roll the deposit in with the creation?
-        }
+        emit PactCreated(ups[msg.sender]);
+
+        return ups[msg.sender];//TODO read this from the event
+        //TODO roll the deposit in with the creation?
     }
 
     function deposit(uint256 amount, uint256 length) payable public {
