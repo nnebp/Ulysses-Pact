@@ -6,6 +6,7 @@
 
 <script>
   var pactInstance;
+  var upAddress;
   function dateToEpoch() {
     var dateString = document.getElementById("myDate").value;
     var epoch = new Date(dateString).getTime();
@@ -94,17 +95,23 @@
       console.log('default account is: ' + web3.eth.defaultAccount);
 
       var pact =  web3.eth.contract(abi);
-      pactInstance = pact.at('0x4dff7a3a8e2af9eed1dc7f4e285858c2eece0096');
+      pactInstance = pact.at('0x54d6a091ee540995310c0fc4ca590870eb10466f');
 
       console.log('Is web3 connected? ' + web3.isConnected());
 
 
      //watch for a test event
-     var myEvent = pactInstance.PactCreated({},{fromBlock: 0, toBlock: 'latest'});
+     //var myEvent = pactInstance.PactCreated({},{fromBlock: 0, toBlock: 'latest'});
+      var myEvent = pactInstance.PactCreated();
 
         myEvent.watch(function(error, result){
             console.log("on watch");
-            console.log(result['args']['_address']);
+            console.log(result['args']['_address'] + "is the pact?");
+
+            //test calling the created contract
+            upAddress = result['args']['_address'];
+
+
         });
 
       pactInstance.hi(function (err, res) {
