@@ -57,13 +57,17 @@ contract Up {
 }
 
 contract UpFactory {
-    mapping (address => address) ups;
+    //mapping (address => address) ups;
+    mapping (address => Up) ups;
     event PactCreated(address _address);
+    //TODO delete
+    address deleteMe;
 
     //TODO test
     function createPact() public returns (address){
-        require(ups[msg.sender] == 0); //one contract per address
+        //TODO add in require
         ups[msg.sender] = new Up();
+
 
         emit PactCreated(ups[msg.sender]);
 
@@ -72,12 +76,14 @@ contract UpFactory {
     }
 
     function deposit(uint256 amount, uint256 length) payable public {
-        require(ups[msg.sender] != 0);
+        //TODO change assert
+        //require(ups[msg.sender] != 0);
         Up(ups[msg.sender]).deposit(amount, length);
     }
 
     function withdraw() public {
-        require(ups[msg.sender] != 0);
+        //TODO change assert
+        //require(ups[msg.sender] != 0);
         Up(ups[msg.sender]).withdraw();
     }
 
