@@ -19,72 +19,96 @@
       console.log(err + "err??something?");
     });
     */
+    pactInstance.deposit(55, 55, {value: web3.toWei(55,'ether'), from: web3.eth.defaultAccount, to: pactInstance.address}, function (err,res){
+      console.log(res + " woo hoo");
+    });
   }
 
-    var abi = [
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "name": "_address",
-            "type": "address"
-          }
-        ],
-        "name": "PactCreated",
-        "type": "event"
-      },
-      {
-        "constant": false,
-        "inputs": [],
-        "name": "createPact",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "name": "length",
-            "type": "uint256"
-          }
-        ],
-        "name": "deposit",
-        "outputs": [],
-        "payable": true,
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [],
-        "name": "withdraw",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "hi",
-        "outputs": [
-          {
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      }
-    ];
+    var abi =
+      [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "PactCreated",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "createPact",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "sayHello",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "name": "length",
+          "type": "uint256"
+        }
+      ],
+      "name": "deposit",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "withdraw",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "hi",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ];
+
 
     //Web3 0.20.3
     startApp = function() {
@@ -95,7 +119,7 @@
       console.log('default account is: ' + web3.eth.defaultAccount);
 
       var pact =  web3.eth.contract(abi);
-      pactInstance = pact.at('0x54d6a091ee540995310c0fc4ca590870eb10466f');
+      pactInstance = pact.at('0x5da528c2b4b85adbd0d98135ec22d04ae3d11180');
 
       console.log('Is web3 connected? ' + web3.isConnected());
 
@@ -108,8 +132,9 @@
             console.log("on watch");
             console.log(result['args']['_address'] + "is the pact?");
 
-            //test calling the created contract
-            upAddress = result['args']['_address'];
+            //TODO test calling the created contract
+            //TODO we call through the factory
+
 
 
         });
@@ -123,6 +148,7 @@
         //if (!error)
           //console.log(JSON.stringify(result));
           console.log(result + " is the result of createPact");
+
         //else
           //console.error(error + " is the result of createPact ERROR");
       });
