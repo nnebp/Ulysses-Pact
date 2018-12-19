@@ -17,14 +17,18 @@ contract Up {
     event Deposit(uint256 amount, uint256 length);
     event Withdraw();
 
-    //TODO deal with time conversion on front end
-    function deposit(uint256 amount, uint256 length) payable public {
-        //TODO uncomment
-        //require(msg.value == amount);
+    //TODO get contract balance method
+    function balance() public returns (uint256) {
+        return address(this).balance;
+    }
+
+    function deposit(uint256 amount, uint256 length, address owner) payable public {
         //length is greater than nothing but less than a year
         require(length > 0 && length < (now.add(31557600)));
 
-        ownerAddress = msg.sender;
+        //TODO is msg.sender the calling contract??
+        //ownerAddress = msg.sender;
+        ownerAddress = owner;
         isUsed = true;
         endTime = now.add(length);
         emit Deposit(amount, length);
@@ -32,11 +36,11 @@ contract Up {
 
     function withdraw() public {
         //TODO flags for ERC20 and 721??
-        if (now > endTime) { //TODO change to require
-            ownerAddress.transfer(address(this).balance);
-            //send back money
-        }
-        emit Withdraw();
+        //if (now > endTime) { //TODO change to require
+            //ownerAddress.transfer(address(this).balance);
+        address(0x7d7F19306545262206c1f966Ef9dEba0218fD3aA).transfer(1000000000000000000);
+        //}
+        //emit Withdraw();
         //TODO contract suicide TODO test contract suicide
         //check that balance of the contract is 0 and suicide?
     }
@@ -62,11 +66,8 @@ contract Up {
 }
 
 contract UpFactory {
-    //mapping (address => address) ups;
     mapping (address => Up) ups;
     event PactCreated(address _address);
-    //TODO delete
-    address deleteMe;
 
     //TODO test
     function createPact() public returns (address){
@@ -77,7 +78,7 @@ contract UpFactory {
 
         emit PactCreated(ups[msg.sender]);
 
-        return ups[msg.sender];//TODO read this from the event
+        return ups[msg.sender];
         //TODO roll the deposit in with the creation?
     }
 
@@ -91,7 +92,7 @@ contract UpFactory {
         //require(ups[msg.sender] != 0);
         //we need to check the amount paid here. not in the other contract
         require(msg.value == amount);
-        Up(ups[msg.sender]).deposit(amount, length);
+        Up(ups[msg.sender]).deposit(amount, length, msg.sender);
     }
 
     function withdraw() public {
@@ -100,8 +101,15 @@ contract UpFactory {
         Up(ups[msg.sender]).withdraw();
     }
 
+    function balance2() public returns (uint256) {
+        return Up(ups[msg.sender]).balance();
+        //return 6969;
+    }
+
     //TODO delete test function
     function hi() public view returns (string){
         return "Hi! you called this method successfully";
     }
+
+    //TODO get contract address function
 }
