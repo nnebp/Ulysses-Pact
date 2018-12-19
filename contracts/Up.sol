@@ -1,4 +1,4 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.19;
 //TODO NEW SOLIDITY VERSION?
 //TODO ERC20 TOKEN CODE
 import "../installed_contracts/zeppelin/contracts/token/StandardToken.sol";
@@ -19,7 +19,8 @@ contract Up {
 
     //TODO deal with time conversion on front end
     function deposit(uint256 amount, uint256 length) payable public {
-        require(msg.value == amount);
+        //TODO uncomment
+        //require(msg.value == amount);
         //length is greater than nothing but less than a year
         require(length > 0 && length < (now.add(31557600)));
 
@@ -54,6 +55,10 @@ contract Up {
         uint balance = token.balanceOf(this);
         token.transfer(ownerAddress, balance);
     }
+    //TODO delete me
+    function hello() public view returns (string){
+        return "UP hello called";
+    }
 }
 
 contract UpFactory {
@@ -65,7 +70,8 @@ contract UpFactory {
 
     //TODO test
     function createPact() public returns (address){
-        //TODO add in require
+        //TODO uncomment
+        //require(ups[msg.sender] == address(0x0));
         ups[msg.sender] = new Up();
 
 
@@ -75,9 +81,16 @@ contract UpFactory {
         //TODO roll the deposit in with the creation?
     }
 
+    //TODO delete test function eventually
+    function sayHello() public view returns (string){
+        //return Up(ups[msg.sender]).hello();
+    }
+
     function deposit(uint256 amount, uint256 length) payable public {
         //TODO change assert
         //require(ups[msg.sender] != 0);
+        //we need to check the amount paid here. not in the other contract
+        require(msg.value == amount);
         Up(ups[msg.sender]).deposit(amount, length);
     }
 
