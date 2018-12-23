@@ -4,26 +4,141 @@
 
 <button onclick="dateToEpoch()">Create Ulysses Pact!</button>
 <button onclick="withdraw()">withdraw</button>
-<button onclick="getBalance()">Balance</button>
+<button onclick="getAddress()">get Address</button>
 
 <script>
   var pactInstance;
   var upAddress;
 
   function withdraw() {
-    pactInstance.withdraw({from: web3.eth.defaultAccount, to: pactInstance.address}, function (err, res) {
+    pactInstance.withdraw({from: web3.eth.defaultAccount, to: pactInstance.jsonAddress}, function (err, res) {
       console.log(res + " did a  widthdraw");
     });
   }
 
-  function getBalance() {
-    pactInstance.balance2.call(function (err, res) {
+  function getAddress() {
+    pactInstance.getAddress(function (err, res) {
       if (err) {
         console.log("error grabbing the balance");
       } else {
-        console.log(res.valueOf() + " is the balance");
+        const upABI =
+           [
+          {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "amount",
+                "type": "uint256"
+              },
+              {
+                "indexed": false,
+                "name": "length",
+                "type": "uint256"
+              }
+            ],
+            "name": "Deposit",
+            "type": "event"
+          },
+          {
+            "anonymous": false,
+            "inputs": [],
+            "name": "Withdraw",
+            "type": "event"
+          },
+          {
+            "constant": false,
+            "inputs": [],
+            "name": "balance",
+            "outputs": [
+              {
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [
+              {
+                "name": "amount",
+                "type": "uint256"
+              },
+              {
+                "name": "length",
+                "type": "uint256"
+              },
+              {
+                "name": "owner",
+                "type": "jsonAddress"
+              }
+            ],
+            "name": "deposit",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [],
+            "name": "withdraw",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+          },
+          {
+            "constant": false,
+            "inputs": [
+              {
+                "name": "_token",
+                "type": "jsonAddress"
+              }
+            ],
+            "name": "withdrawTokens",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+          },
+          {
+            "constant": true,
+            "inputs": [],
+            "name": "hello",
+            "outputs": [
+              {
+                "name": "",
+                "type": "string"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+          }
+        ];
+
+        //will unlocking default account fix invalid jsonAddress problem?
+        //web3.eth.defaultAccount = web3.eth.accounts[0];
+        //web3.personal.unlockAccount(web3.eth.defaultAccount);
+
+        var pact =  web3.eth.contract(upABI);
+        var upPactInstance = pact.at(res.toString());
+        //upPactInstance.web3.eth.defaultAccount=upPactInstance.web3.eth.coinbase;
+
+        console.log(res.valueOf() + " is the jsonAddress");
+
+        upPactInstance.hello({from: web3.eth.defaultAccount}, function (err, res){
+
+          console.log('testing new up hello method: ' + res);
+        });
       }
     });
+
+    //grab the
   }
 
   //TODO change function name + stuff
@@ -33,108 +148,108 @@
     console.log(epoch);
 
     console.log("we are going to send: " + web3.toWei(5, 'ether'));
-    pactInstance.deposit(web3.toWei(5,'ether'), 1, {value: web3.toWei(5,'ether'), from: web3.eth.defaultAccount, to: pactInstance.address}, function (err,res){
+    pactInstance.deposit(web3.toWei(5,'ether'), 1, {value: web3.toWei(5,'ether'), from: web3.eth.defaultAccount, to: pactInstance.jsonAddress}, function (err,res){
       console.log(res + " woo hoo");
     });
+    //var address = async () => await (await fetch('http://localhost:63342/Ulysses-Pact/address.json')).json();
   }
 
     var abi =
-       [
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "_address",
-          "type": "address"
-        }
-      ],
-      "name": "PactCreated",
-      "type": "event"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "createPact",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "sayHello",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "amount",
-          "type": "uint256"
+        [{
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "_address",
+              "type": "jsonAddress"
+            }
+          ],
+          "name": "PactCreated",
+          "type": "event"
         },
-        {
-          "name": "length",
-          "type": "uint256"
-        }
-      ],
-      "name": "deposit",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "withdraw",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "balance2",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "hi",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    }
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "createPact",
+        "outputs": [
+          {
+            "name": "",
+            "type": "jsonAddress"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "sayHello",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "name": "length",
+            "type": "uint256"
+          }
+        ],
+        "name": "deposit",
+        "outputs": [],
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "withdraw",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "getAddress",
+        "outputs": [
+          {
+            "name": "",
+            "type": "jsonAddress"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "hi",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      }
   ];
 
 
@@ -147,7 +262,11 @@
       console.log('default account is: ' + web3.eth.defaultAccount);
 
       var pact =  web3.eth.contract(abi);
-      pactInstance = pact.at('0x7bcf2ae3192c0fe198ff3def630f4c52fc94ddab');
+      //var address = async () => {await fetch("http://localhost:63342/Ulysses-Pact/address.json").then(response => response.json())};
+      //var address = async () => {await fetch("http://localhost:63342/Ulysses-Pact/address.json")};
+      var address = async () => await (await fetch('http://localhost:63342/Ulysses-Pact/address.json')).json();
+      //pactInstance = pact.at('0x43048c09d23404dfe68f7e9b547ad560679502ad');
+      pactInstance =  pact.at(address);
 
       console.log('Is web3 connected? ' + web3.isConnected());
 
