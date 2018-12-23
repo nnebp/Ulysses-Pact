@@ -141,10 +141,22 @@
     //grab the
   }
 
-  //TODO change function name + stuff
+  //TODO change function name + vars etc
   function dateToEpoch() {
     var dateString = document.getElementById("myDate").value;
     var epoch = new Date(dateString).getTime();
+    //var address = async () => await (await fetch('http://localhost:63342/Ulysses-Pact/address.json')).json();
+    //var address = await fetch('http://localhost:63342/Ulysses-Pact/address.json');
+
+    const request = async () => {
+      const response = await fetch('http://localhost:3000/address');
+      const json = await response.json();
+      return json;
+    };
+
+    //request();
+    var address = request().then(console.log());
+    console.log("our address is: ");
     console.log(epoch);
 
     console.log("we are going to send: " + web3.toWei(5, 'ether'));
@@ -264,9 +276,9 @@
       var pact =  web3.eth.contract(abi);
       //var address = async () => {await fetch("http://localhost:63342/Ulysses-Pact/address.json").then(response => response.json())};
       //var address = async () => {await fetch("http://localhost:63342/Ulysses-Pact/address.json")};
-      var address = async () => await (await fetch('http://localhost:63342/Ulysses-Pact/address.json')).json();
-      //pactInstance = pact.at('0x43048c09d23404dfe68f7e9b547ad560679502ad');
-      pactInstance =  pact.at(address);
+      //var address = async () => await (await fetch('http://localhost:63342/Ulysses-Pact/address.json')).json();
+      pactInstance = pact.at('0x43048c09d23404dfe68f7e9b547ad560679502ad');
+      //pactInstance =  pact.at(address);
 
       console.log('Is web3 connected? ' + web3.isConnected());
 
