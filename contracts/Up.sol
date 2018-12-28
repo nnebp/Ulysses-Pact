@@ -36,11 +36,11 @@ contract Up {
 
     function withdraw() public {
         //TODO flags for ERC20 and 721??
-        //if (now > endTime) { //TODO change to require
-            //ownerAddress.transfer(address(this).balance);
-        address(0x7d7F19306545262206c1f966Ef9dEba0218fD3aA).transfer(1000000000000000000);
-        //}
-        //emit Withdraw();
+        if (now > endTime) { //TODO change to require
+            ownerAddress.transfer(address(this).balance);
+        //address(0x7d7F19306545262206c1f966Ef9dEba0218fD3aA).transfer(1000000000000000000);
+        }
+        emit Withdraw();
         //TODO contract suicide TODO test contract suicide
         //check that balance of the contract is 0 and suicide?
     }
@@ -89,10 +89,11 @@ contract UpFactory {
 
     function deposit(uint256 amount, uint256 length) payable public {
         //TODO change assert
+        //TODO send owner address to child
         //require(ups[msg.sender] != 0);
         //we need to check the amount paid here. not in the other contract
         require(msg.value == amount);
-        Up(ups[msg.sender]).deposit(amount, length, msg.sender);
+        Up(ups[msg.sender]).deposit.value(msg.value)(amount, length, msg.sender);
     }
 
     function withdraw() public {
@@ -101,9 +102,12 @@ contract UpFactory {
         Up(ups[msg.sender]).withdraw();
     }
 
-    function balance2() public returns (uint256) {
+    function getAddress() public returns (address) {
+        return address(ups[msg.sender]);
+    }
+
+    function balance() public returns (uint256) {
         return Up(ups[msg.sender]).balance();
-        //return 6969;
     }
 
     //TODO delete test function
