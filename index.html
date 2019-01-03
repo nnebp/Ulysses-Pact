@@ -1,342 +1,49 @@
-<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
-
-<input type="date" id="myDate" value="2014-02-09">
-
-<button onclick="dateToEpoch()">Create Ulysses Pact!</button>
-<button onclick="withdraw()">withdraw</button>
-<button onclick="getAddress()">get Address</button>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example Ulysees Pact</title>
+</head>
+<body>
+    <button onclick="create()">Create Ulysses Pact!</button>
+    <button onclick="withdraw()">withdraw</button>
+    <button onclick="balance()">balance</button>
+</body>
 <script>
-  var pactInstance;
-  var upAddress;
+  //instance of factory contract
+  const pactInstance;
 
-  function withdraw() {
-    pactInstance.withdraw({from: web3.eth.defaultAccount, to: pactInstance.jsonAddress}, function (err, res) {
-      console.log(res + " did a  widthdraw");
+  //TODO check for pact instance if there is one?
+  function balance() {
+    //TODO check for pact
+    pactInstance.balance.call({from: web3.eth.defaultAccount, to: pactInstance.dynamicAddressABI}, function (err, res) {
+      console.log(res.valueOf() + " is the balance");
     });
   }
-
-  function getAddress() {
-    pactInstance.getAddress(function (err, res) {
-      if (err) {
-        console.log("error grabbing the balance");
-      } else {
-        const upABI =
-           [
-          {
-            "anonymous": false,
-            "inputs": [
-              {
-                "indexed": false,
-                "name": "amount",
-                "type": "uint256"
-              },
-              {
-                "indexed": false,
-                "name": "length",
-                "type": "uint256"
-              }
-            ],
-            "name": "Deposit",
-            "type": "event"
-          },
-          {
-            "anonymous": false,
-            "inputs": [],
-            "name": "Withdraw",
-            "type": "event"
-          },
-          {
-            "constant": false,
-            "inputs": [],
-            "name": "balance",
-            "outputs": [
-              {
-                "name": "",
-                "type": "uint256"
-              }
-            ],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "constant": false,
-            "inputs": [
-              {
-                "name": "amount",
-                "type": "uint256"
-              },
-              {
-                "name": "length",
-                "type": "uint256"
-              },
-              {
-                "name": "owner",
-                "type": "jsonAddress"
-              }
-            ],
-            "name": "deposit",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
-          },
-          {
-            "constant": false,
-            "inputs": [],
-            "name": "withdraw",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "constant": false,
-            "inputs": [
-              {
-                "name": "_token",
-                "type": "jsonAddress"
-              }
-            ],
-            "name": "withdrawTokens",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "constant": true,
-            "inputs": [],
-            "name": "hello",
-            "outputs": [
-              {
-                "name": "",
-                "type": "string"
-              }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-          }
-        ];
-
-        //will unlocking default account fix invalid jsonAddress problem?
-        //web3.eth.defaultAccount = web3.eth.accounts[0];
-        //web3.personal.unlockAccount(web3.eth.defaultAccount);
-
-        var pact =  web3.eth.contract(upABI);
-        var upPactInstance = pact.at(res.toString());
-        //upPactInstance.web3.eth.defaultAccount=upPactInstance.web3.eth.coinbase;
-
-        console.log(res.valueOf() + " is the jsonAddress");
-
-        upPactInstance.hello({from: web3.eth.defaultAccount}, function (err, res){
-
-          console.log('testing new up hello method: ' + res);
-        });
-      }
-    });
-
-    //grab the
-  }
-
-  //TODO change function name + vars etc
-  function dateToEpoch() {
-    var dateString = document.getElementById("myDate").value;
-    var epoch = new Date(dateString).getTime();
-    //var address = async () => await (await fetch('http://localhost:63342/Ulysses-Pact/address.json')).json();
-    //var address = await fetch('http://localhost:63342/Ulysses-Pact/address.json');
-
-    const request = async () => {
-      const response = await fetch('http://localhost:3000/address');
-      const json = await response.json();
-      return json;
-    };
-
-    //request();
-    var address = request().then(console.log());
-    console.log("our address is: ");
-    console.log(epoch);
-
-    console.log("we are going to send: " + web3.toWei(5, 'ether'));
-    pactInstance.deposit(web3.toWei(5,'ether'), 1, {value: web3.toWei(5,'ether'), from: web3.eth.defaultAccount, to: pactInstance.jsonAddress}, function (err,res){
-      console.log(res + " woo hoo");
-    });
-    //var address = async () => await (await fetch('http://localhost:63342/Ulysses-Pact/address.json')).json();
-  }
-
-    var abi =
-        [{
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "name": "_address",
-              "type": "jsonAddress"
-            }
-          ],
-          "name": "PactCreated",
-          "type": "event"
-        },
-      {
-        "constant": false,
-        "inputs": [],
-        "name": "createPact",
-        "outputs": [
-          {
-            "name": "",
-            "type": "jsonAddress"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "sayHello",
-        "outputs": [
-          {
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "name": "length",
-            "type": "uint256"
-          }
-        ],
-        "name": "deposit",
-        "outputs": [],
-        "payable": true,
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [],
-        "name": "withdraw",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [],
-        "name": "getAddress",
-        "outputs": [
-          {
-            "name": "",
-            "type": "jsonAddress"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "hi",
-        "outputs": [
-          {
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      }
-  ];
-
-
-    //Web3 0.20.3
-    startApp = function() {
-      //unlock
-      //web3.eth.defaultAccount = web3.eth.accounts[0];
-      //web3.personal.unlockAccount(web3.eth.defaultAccount);
-
-      console.log('default account is: ' + web3.eth.defaultAccount);
-
-      var pact =  web3.eth.contract(abi);
-      //var address = async () => {await fetch("http://localhost:63342/Ulysses-Pact/address.json").then(response => response.json())};
-      //var address = async () => {await fetch("http://localhost:63342/Ulysses-Pact/address.json")};
-      //var address = async () => await (await fetch('http://localhost:63342/Ulysses-Pact/address.json')).json();
-      pactInstance = pact.at('0x43048c09d23404dfe68f7e9b547ad560679502ad');
-      //pactInstance =  pact.at(address);
-
-      console.log('Is web3 connected? ' + web3.isConnected());
-
-
-     //watch for a test event
-     //var myEvent = pactInstance.PactCreated({},{fromBlock: 0, toBlock: 'latest'});
-      var myEvent = pactInstance.PactCreated();
-
-        myEvent.watch(function(error, result){
-            console.log("on watch");
-            console.log(result['args']['_address'] + "is the pact?");
-
-            //TODO test calling the created contract
-            //TODO we call through the factory
-
-
-
-        });
-
-      pactInstance.hi(function (err, res) {
-        console.log(res);
-      });
-
-      //TODO make this into a seperate function after its confirmed everything works
-      pactInstance.createPact(function(error, result) {
-        //if (!error)
-          //console.log(JSON.stringify(result));
-          console.log(result + " is the result of createPact");
-
-        //else
-          //console.error(error + " is the result of createPact ERROR");
-      });
-    };
-
-window.addEventListener('load', async () => {
+  //get web3 from metamask
+  window.addEventListener('load', async () => {
     // Modern dapp browsers...
     if (window.ethereum) {
-        window.web3 = new Web3(ethereum);
-        try {
-            // Request account access if needed
-            await ethereum.enable();
-            // Acccounts now exposed
-            web3.eth.sendTransaction({/* ... */});
-        } catch (error) {
-            // User denied account access...
-        }
+      window.web3 = new Web3(ethereum);
+      try {
+        // Request account access if needed
+        await ethereum.enable();
+        // Acccounts now exposed
+        web3.eth.sendTransaction({/* ... */});
+      } catch (error) {
+        // User denied account access...
+      }
     }
     // Legacy dapp browsers...
     else if (window.web3) {
-        window.web3 = new Web3(web3.currentProvider);
-        // Acccounts always exposed
-        web3.eth.sendTransaction({/* ... */});
+      window.web3 = new Web3(web3.currentProvider);
+      // Acccounts always exposed
+      web3.eth.sendTransaction({/* ... */});
     }
     // Non-dapp browsers...
     else {
-        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+      console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
     }
-
-    startApp();
-});
+  });
 </script>
+</html>

@@ -1,6 +1,7 @@
 var Up = artifacts.require("Up"); //don't include file name. just contract name
 var UpFactory = artifacts.require('UpFactory');
 var timeHelper = require('./fastForwardTime');
+var addressABI = require('../DynamicAddressABI');
 //https://github.com/pooleja/UlyssesPact
 
 //Test the factory
@@ -10,6 +11,10 @@ contract('UpFactory', function(accounts) {
     return UpFactory.deployed().then(async function(instance) {
       upFactory = instance;
       console.log("contract factory address: " + upFactory.address);
+
+      //write contract address to file
+      addressABI.save("UpFactory", upFactory.address, './address.json', './build/contracts/UpFactory.json');
+
       upFactory.createPact(); //test to see which contract is deployed
 
       assert(true);//TODO change

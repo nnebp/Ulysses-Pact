@@ -7,9 +7,11 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+//TODO get the abi this way too
 module.exports = {
-  export(contractName, jsonAddress, file) {
-    fs.writeFile(file, JSON.stringify({contract: contractName, address: jsonAddress}), function(err) {
+  save(contractName, address, file, buildFile) {//todo need to change address var name?
+    const abiJson = JSON.parse(fs.readFileSync(buildFile, 'utf8'));
+    fs.writeFile(file, JSON.stringify({contract: contractName, address: address, abi: abiJson.abi}), function(err) {
       if(err) {
         return console.log(err);
       }
